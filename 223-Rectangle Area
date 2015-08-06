@@ -1,0 +1,68 @@
+//other's idea
+
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+    int w = min(C, G) - max(A, E);
+    int h = min(D, H) - max(B, F);
+    return (C - A) * (D - B) + (G - E)*(H - F) - (w <= 0 || h <= 0? 0 : w*h);
+}
+
+
+public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+
+        int areaOfSqrA = (C-A) * (D-B);
+         int areaOfSqrB = (G-E) * (H-F);
+
+        int left = Math.max(A, E);
+        int right = Math.min(G, C);
+        int bottom = Math.max(F, B);
+        int top = Math.min(D, H);
+
+        //If overlap
+        int overlap = 0;
+        if(right > left && top > bottom)
+             overlap = (right - left) * (top - bottom);
+
+        return areaOfSqrA + areaOfSqrB - overlap;
+    }
+Hello! So, the code should be fairly straightforward. I first calculate the area of each rectangle and then calculate the
+overlapping area between the two rectangles (if there is one!). At the end, we sum up the individual areas and subtract the
+overlapping area/0 !
+
+Feel free to ask should you have any queries for me OR if my solution can be improved upon! :)
+
+
+
+
+The original version wasn't passing anymore because of new test cases that cause overflow. So now we're avoiding computing the differences below if the result will be negative. This avoids overflow in cases where the rectangles are far apart. It looks like this is basically the same thing that @shw1500 was suggesting, but you don't need the extra max function on the outside.
+
+The return statement is based on comments from @StefanPochmann. We want to avoid forming the sum area(R1) + area(R2). This avoids overflow in cases where area(R1) + area(R2) will overflow, but area(R1) + area(R2) - overlap(R1, R2) fits in an int. There aren't any test cases for this. Add some maybe? Edit: There are test cases for this, but the overflow didn't matter.
+
+New version- avoids overflow when area(R1) + area(R2) overflows but the answer shouldn't.
+
+class Solution {
+    public:
+        int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+            int overlap_width = min(C, G) > max(A, E) ? min(C, G) - max(A, E) : 0; 
+            int overlap_height = min(D, H) > max(B, F) ? min(D, H) - max(B, F) : 0;
+            return ((C - A) * (D - B) - overlap_width * overlap_height) + (G - E) * (H - F); // order avoids overflow
+        }
+    };
+Second version- avoids overflow when rectangles are far apart
+
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int overlap_width = min(C, G) > max(A, E) ? min(C, G) - max(A, E) : 0; 
+        int overlap_height = min(D, H) > max(B, F) ? min(D, H) - max(B, F) : 0;
+        return (C - A) * (D - B) + (G - E) * (H - F) - overlap_width * overlap_height;
+    }
+};
+Old version- overflows for some inputs where the rectangles are far apart.
+
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int overlap_width = max(min(C, G) - max(A, E), 0), overlap_height = max(min(D, H) - max(B, F), 0);
+        return (C - A) * (D - B) + (G - E) * (H - F) - overlap_width * overlap_height;
+    }
+};
