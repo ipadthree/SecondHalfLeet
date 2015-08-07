@@ -5,6 +5,10 @@ sum water amount of each bin(width=1). Search from left to right and maintain a 
 is like a one-side wall of partial container. Fix the higher one and flow water from the lower part. For example, if current 
 height of left is lower, we fill water in the left bin. Until left meets right, we filled the whole container.
 
+这种两边往中间夹逼的方法也挺常用的，它的核心思路就是向中间夹逼时能确定接下来移动一侧窗口不可能使结果变得更好，
+所以每次能确定移动一侧指针，直到相遇为止。这种方法带有一些贪心，用到的有Two Sum，Container With Most Water，都是不错的题目，
+有兴趣的朋友可以看看哈。
+
 class Solution {
 public:
     int trap(int A[], int n) {
