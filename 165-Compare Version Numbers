@@ -42,6 +42,9 @@ public:
     }
 };
 
+//Why I didn't solve the problem, I think is because I didn't see this problem from the big picture at first, wasn't able to 
+consider all the possible inputs.
+
 
 
 //other's idea
