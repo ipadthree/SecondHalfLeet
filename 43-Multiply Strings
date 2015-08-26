@@ -4,22 +4,26 @@ carry requires us to write to our sum string outside of our for loop.
 
 At the end, we trim any leading zeros, or return 0 if we computed nothing but zeros.
 
-string multiply(string num1, string num2) {
-    string sum(num1.size() + num2.size(), '0');
-
-    for (int i = num1.size() - 1; 0 <= i; --i) {
-        int carry = 0;
-        for (int j = num2.size() - 1; 0 <= j; --j) {
-            int tmp = (sum[i + j + 1] - '0') + (num1[i] - '0') * (num2[j] - '0') + carry;
-            sum[i + j + 1] = tmp % 10 + '0';
-            carry = tmp / 10;
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        int length1 = num1.size();
+        int length2 = num2.size();
+        if(num1 == "0" || num2 == "0") return "0";
+        string result(length1 + length2, '0');
+        for(int i = length1 - 1; i >= 0; i--){
+            int carry = 0;
+            for(int j = length2 - 1; j >= 0; j--){
+                int temp = result[i+j+1] - '0' + (num1[i]-'0')*(num2[j]-'0') + carry;
+                result[i+j+1] = temp%10 + '0';
+                carry = temp/10;
+            }
+            result[i] += carry;
         }
-        sum[i] += carry;
+        int start = 0;
+        while(result[start] == '0'){
+            start++;
+        }
+        return result.substr(start);
     }
-
-    size_t startpos = sum.find_first_not_of("0");
-    if (string::npos != startpos) {
-        return sum.substr(startpos);
-    }
-    return "0";
-}
+};
