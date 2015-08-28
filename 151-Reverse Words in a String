@@ -1,0 +1,19 @@
+/*My idea, time complicity is O(n), space complicity is O(n), really slow*/
+
+void reverseWords(string &s) {
+    string result;
+    for(int i = s.size() - 1; i >= 0; i--){
+        while(s[i] == ' ' && i >= 0) i--;
+        if(i < 0) continue;
+        string temp;
+        while(s[i] != ' ' && i >= 0){
+            temp = s[i] + temp;
+            i--;
+        }
+        result = result + temp + " ";
+    }
+    int bl = result.size();
+    int sl = result.size()-1;
+    result = result.substr(0,sl);
+    s = result;
+}
