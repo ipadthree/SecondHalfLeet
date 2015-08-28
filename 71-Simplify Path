@@ -1,0 +1,32 @@
+//Other's idea
+
+
+string simplifyPath(string path) {
+        const char* p = path.c_str();
+        string res = "/";
+        vector<string> full_path;
+        char* addr = strtok((char*)p, "/");
+        int cur = 0, size = 0;
+        while(addr) {
+            if(strcmp(addr, ".") == 0) {
+            }       
+            else if(strcmp(addr, "..") == 0) {
+                cur > 0 ? cur-- : cur;
+            }    
+            else {
+                if(cur == size) {
+                    full_path.push_back(addr);
+                    cur++;
+                    size++;
+                }
+                else {
+                    full_path[cur++] = addr;
+                }
+            }     
+            addr = strtok(NULL, "/");
+        }
+        for(int i=0; i<cur; i++) {
+            res = res + full_path[i] + "/";
+        }
+        return res.size() == 1 ? res : res.substr(0, res.size() - 1);
+}
