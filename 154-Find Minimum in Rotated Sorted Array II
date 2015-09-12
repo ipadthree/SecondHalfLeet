@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int len = nums.size();
+        if(len == 0) return 0;
+        int start = 0, end = len - 1;
+        int mid;
+        while(start + 1 < end){
+            mid = start+(end-start)/2;
+            if(nums[mid] < nums[end]){
+                end = mid;
+            }
+            //This sequence cannot be changed, in case that [1,2,3], this kind of sequence occurs.
+            else if(nums[mid] > nums[end]){
+                start = mid;
+            }else{
+                end--;
+            }
+        }
+        if(nums[start] > nums[end]) return nums[end];
+        return nums[start];
+    }
+};
+
+When num[mid] == num[hi], we couldn't sure the position of minimum in mid's left or right, so just let upper bound reduce one.
