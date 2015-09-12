@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findKth(vector<int> A, int Astart, vector<int> B, int Bstart, int k){
+        if(Astart >= A.size()){
+            return B[Bstart+k-1];
+        }
+        if(Bstart >= B.size()){
+            return A[Astart+k-1];
+        }
+        
+        if(k == 1) return min(A[Astart],B[Bstart]);
+        
+        int Akey = Astart + k/2 - 1 < A.size() ? A[Astart+k/2-1] : INT_MAX;
+        int Bkey = Bstart + k/2 - 1 < B.size() ? B[Bstart+k/2-1] : INT_MAX;
+        
+        if(Akey < Bkey){
+            return findKth(A,Astart+k/2,B,Bstart,k-k/2);
+        }else{
+            return findKth(A,Astart,B,Bstart+k/2,k-k/2);
+        }
+    }
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int len = nums1.size() + nums2.size();
+        if(len % 2 == 0){
+            return (findKth(nums1,0,nums2,0,len/2) + findKth(nums1,0,nums2,0,len/2 + 1))/2.0;
+        }else{
+            return findKth(nums1,0,nums2,0,len/2+1);
+        }
+    }
+};
